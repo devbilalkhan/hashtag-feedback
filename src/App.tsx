@@ -1,11 +1,13 @@
 import Container from "./components/Container";
 import Footer from "./components/Footer";
-import HashtagList from "./components/HashtagList";
+
+import Pattern from "./components/Pattern";
 
 function App() {
   return (
     <>
-      <div className="my-4">
+      <Pattern />
+      <div className="bg-tranparent relative mb-4 mt-[-42rem]">
         <Container />
       </div>
       <Footer />
