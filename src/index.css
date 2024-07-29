@@ -4,6 +4,6 @@
 
 @layer components {
   .container {
-    @apply  h-screen flex-col  rounded-lg border py-4 md:shadow-sm  md:h-custom;
+    @apply  flex-col  rounded-lg border py-4 md:shadow-sm  ;
   }
 }
