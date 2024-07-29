@@ -1,10 +1,14 @@
-import Header from './Header';
-import FeedbackList from './FeedbackList'
+import Header from "./Header";
+import FeedbackList from "./FeedbackList";
+import HashtagList from "./HashtagList";
 export default function Container() {
   return (
-    <div className="centered-div">
-      <Header />
-      <FeedbackList />
-    </div>
+    <section className="flex justify-center gap-4">
+      <div className="container">
+        <Header />
+        <FeedbackList />
+      </div>
+      <HashtagList />
+    </section>
   );
 }

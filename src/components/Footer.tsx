@@ -1,10 +1,8 @@
-import React from "react";
-
 export default function Footer() {
   return (
-    <>
-    <small>
-        <p className="rotate-0 transform text-black">
+    <footer className="mx-auto flex w-full justify-center text-center text-gray-500">
+      <small>
+        <p>
           &copy; Copyright by{" "}
           <a
             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
@@ -16,6 +14,6 @@ export default function Footer() {
         </p>
         <p>Made by Bilal Khan.</p>
       </small>
-    </>
+    </footer>
   );
 }

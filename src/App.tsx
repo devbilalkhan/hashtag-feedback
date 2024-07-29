@@ -5,11 +5,10 @@ import HashtagList from "./components/HashtagList";
 function App() {
   return (
     <>
-      <div className="flex">
-        <Footer />
+      <div className="my-4">
         <Container />
-        <HashtagList />
       </div>
+      <Footer />
     </>
   );
 }
