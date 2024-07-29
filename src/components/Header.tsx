@@ -1,13 +1,11 @@
 import FeedbackForm from "./FeedbackForm";
 import Logo from "./Logo";
-import PageHeading from "./PageHeading";
 
 export default function Header() {
   return (
-    <div>
+    <header className="flex flex-col gap-y-6 border-b-2 px-4">
       <Logo />
-      <PageHeading />
       <FeedbackForm />
-    </div>
+    </header>
   );
 }

@@ -1,13 +1,15 @@
 export default function HashtagList() {
   return (
-    <section className="pt-8">
-      <ul className="max-w-md list-inside list-none space-y-1 text-gray-500 dark:text-gray-400">
-        <li className="bg-purple-100 text-purple-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded border border-purple-400">
+    <section className="py-8">
+      <div className="flex ">
+        <span className="me-2 rounded border border-gray-800 bg-gray-800 px-2.5 py-0.5 text-sm font-medium text-white">
           #Instagram
-        </li>
-        <li>#Mainframe Studio</li>
-        <li>#Apple</li>
-      </ul>
+        </span>
+                <span className="me-2 rounded border border-gray-800 bg-gray-800 px-2.5 py-0.5 text-sm font-medium text-white">
+          #Facebook
+        </span>
+
+      </div>
     </section>
   );
 }
