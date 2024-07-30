@@ -1,5 +1,5 @@
-import Container from "./components/Container";
-import Footer from "./components/Footer";
+import Container from "./components/layout/Container";
+import Footer from "./components/layout/Footer";
 
 import Pattern from "./components/Pattern";
 import HashtagList from "./components/HashtagList";
@@ -10,7 +10,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleAddFeedbackItem = (text: string) => {
+  const handleAddFeedbackItem = async (text: string) => {
     const companyName = text
       .split(" ")
       .find((word: string) => word.includes("#"))!
@@ -21,10 +21,30 @@ function App() {
       text: text,
       upvoteCount: 0,
       daysAgo: 0,
-      companyName: companyName,
+      company: companyName,
       badgeLetter: companyName.substring(0, 1).toUpperCase(),
     };
     setFeedbackItems([...feedbackItems, newItem]);
+
+    try {
+      const response = await fetch(
+        "https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks",
+        {
+          method: "POST",
+          body: JSON.stringify(newItem),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   const fetchComments = async () => {
@@ -58,6 +78,7 @@ function App() {
           feedbackItems={feedbackItems}
           isLoading={isLoading}
           errorMessage={errorMessage}
+          handleAddFeedbackItem={handleAddFeedbackItem}
         />
       </div>
       <Footer />

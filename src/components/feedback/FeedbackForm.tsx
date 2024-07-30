@@ -1,17 +1,23 @@
 import React, { useRef, useState } from "react";
-import { MAX_CHARACTERS } from "../lib/constants";
+import { MAX_CHARACTERS } from "../../lib/constants";
 
-const FeedbackForm = () => {
+type FeedbackFormProps = {
+  onAddFeedbackItem: (text: string) => void;
+};
+
+const FeedbackForm = ({ onAddFeedbackItem }: FeedbackFormProps) => {
   const [newFeedback, setNewFeedback] = useState("");
-  const feedbackRef = useRef();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newFeedback) {
       alert("Please enter feedback with hashtag!");
-      feedbackRef.current.autoFocus();
+      inputRef.current && inputRef.current.focus();
       return;
     }
+    onAddFeedbackItem(newFeedback);
+    setNewFeedback("");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -26,7 +32,7 @@ const FeedbackForm = () => {
         className="relative flex h-[250px] flex-col gap-y-4 px-10"
       >
         <textarea
-          ref={feedbackRef}
+          ref={inputRef}
           value={newFeedback}
           id="feedback-textarea"
           onChange={handleChange}
