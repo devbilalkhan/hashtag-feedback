@@ -8,14 +8,29 @@ type FeedbackFormProps = {
 const FeedbackForm = ({ onAddFeedbackItem }: FeedbackFormProps) => {
   const [newFeedback, setNewFeedback] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [isValid, setIsValid] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newFeedback) {
-      alert("Please enter feedback with hashtag!");
       inputRef.current && inputRef.current.focus();
       return;
     }
+
+    if (newFeedback.includes("#") && newFeedback.length > 2) {
+      setIsValid(true);
+      setTimeout(() => {
+        setIsValid(false);
+      }, 2000);
+    } else {
+      setIsInvalid(true);
+      setTimeout(() => {
+        setIsInvalid(false);
+      }, 2000);
+      return;
+    }
+
     onAddFeedbackItem(newFeedback);
     setNewFeedback("");
   };
@@ -37,7 +52,7 @@ const FeedbackForm = ({ onAddFeedbackItem }: FeedbackFormProps) => {
           id="feedback-textarea"
           onChange={handleChange}
           spellCheck={false}
-          className="h-full w-full rounded-lg border-0 bg-gray-100 p-2 text-sm text-gray-900 focus:ring-0"
+          className={`h-full w-full rounded-lg border-0 bg-gray-100 p-2 text-sm text-gray-900 focus:ring-0 ${isValid && "border-2 border-green-500"} ${isInvalid && "border-2 border-red-600"}`}
           placeholder="Enter your feedback here, remember to incluse the company #hashtag"
         />
 
