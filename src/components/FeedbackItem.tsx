@@ -1,17 +1,9 @@
 import { TriangleUpIcon } from "@radix-ui/react-icons";
+import { TFeedbackItem } from "../lib/types";
 
-type FeedbackItemType = {
-  id: number;
-  upvoteCount: number;
-  badgeLetter: string;
-  companyName: string;
-  text: string;
-  daysAgo: number;
-};
-
-const FeedbackItem = ({ upvoteCount, text }: FeedbackItemType) => {
+const FeedbackItem = ({ upvoteCount, text }: TFeedbackItem) => {
   return (
-    <li className="grid auto-cols-min grid-flow-col place-content-center gap-6 border-b py-6">
+    <li className="tranform grid auto-cols-min grid-flow-col place-content-center gap-6 border-b py-6 transition-transform duration-500 ease-in-out hover:translate-x-0.5 hover:border-b-0 hover:border-l-4 hover:border-purple-600 hover:bg-purple-50">
       <div className="flex items-center justify-center">
         <button className="flex flex-col items-center justify-center">
           <TriangleUpIcon />
