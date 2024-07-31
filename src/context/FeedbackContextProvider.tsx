@@ -1,5 +1,6 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import { TFeedbackItem } from "../lib/types";
+import { useFeedbackItems } from "../lib/hooks";
 
 type DefaultFeedbackItemType = {
   companyList: string[];
@@ -10,27 +11,18 @@ type DefaultFeedbackItemType = {
   handleAddFeedbackItem: (text: string) => void;
 };
 
-const defaultFeedbackContext: DefaultFeedbackItemType = {
-  companyList: [],
-  handleSelectHashtag: () => {},
-  filteredFeedbackItems: [],
-  isLoading: false,
-  errorMessage: "",
-  handleAddFeedbackItem: () => {},
-};
-
 type FeedbackContextProviderProps = {
   children: React.ReactNode;
 };
 
-export const FeedbackContext = createContext(defaultFeedbackContext);
+export const FeedbackContext = createContext<DefaultFeedbackItemType | null>(
+  null,
+);
 
 function FeedbackContextProvider({ children }: FeedbackContextProviderProps) {
-  const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const { feedbackItems, isLoading, errorMessage, setFeedbackItems } =
+    useFeedbackItems();
   const [selectedHastag, setSelectedHastag] = useState("");
-
   /**
    * Selects the company bases on the user click
    */
@@ -106,28 +98,6 @@ function FeedbackContextProvider({ children }: FeedbackContextProviderProps) {
   /**
    * Reads all the feedback items from the database server
    */
-  const fetchComments = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        "https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks",
-      );
-
-      if (!response.ok) {
-        throw new Error();
-      }
-      const data = await response.json();
-      setFeedbackItems(data.feedbacks);
-    } catch (e) {
-      setErrorMessage("An Error occurred.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchComments();
-  }, []);
 
   return (
     <FeedbackContext.Provider
