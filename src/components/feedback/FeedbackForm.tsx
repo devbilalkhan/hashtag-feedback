@@ -1,11 +1,9 @@
 import React, { useRef, useState } from "react";
 import { MAX_CHARACTERS } from "../../lib/constants";
+import useFeedback from "../../lib/hooks";
 
-type FeedbackFormProps = {
-  onAddFeedbackItem: (text: string) => void;
-};
-
-const FeedbackForm = ({ onAddFeedbackItem }: FeedbackFormProps) => {
+const FeedbackForm = () => {
+  const { handleAddFeedbackItem } = useFeedback();
   const [newFeedback, setNewFeedback] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [isValid, setIsValid] = useState(false);
@@ -31,7 +29,7 @@ const FeedbackForm = ({ onAddFeedbackItem }: FeedbackFormProps) => {
       return;
     }
 
-    onAddFeedbackItem(newFeedback);
+    handleAddFeedbackItem(newFeedback);
     setNewFeedback("");
   };
 

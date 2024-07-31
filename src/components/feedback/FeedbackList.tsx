@@ -1,25 +1,17 @@
+import useFeedback from "../../lib/hooks";
 import { TFeedbackItem } from "../../lib/types";
 import ErrorMessage from "../ErrorMessage";
 import Spinner from "../Spinner";
 import FeedbackItem from "./FeedbackItem";
 
-type FeedbackItemProps = {
-  feedbackItems: TFeedbackItem[];
-  isLoading: boolean;
-  errorMessage: string;
-};
-
-export default function FeedbackList({
-  feedbackItems,
-  isLoading,
-  errorMessage,
-}: FeedbackItemProps) {
+export default function FeedbackList() {
+  const { errorMessage, isLoading, filteredFeedbackItems } = useFeedback();
   return (
     <div className="w-full">
       {<ErrorMessage message={errorMessage} />}
       {isLoading && <Spinner />}
       <ol className="flex flex-col">
-        {feedbackItems.map((feedbackItem: TFeedbackItem) => (
+        {filteredFeedbackItems.map((feedbackItem: TFeedbackItem) => (
           <FeedbackItem {...feedbackItem} key={feedbackItem.id} />
         ))}
       </ol>
