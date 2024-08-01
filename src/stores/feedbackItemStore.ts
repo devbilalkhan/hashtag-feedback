@@ -1,31 +1,40 @@
 import { create } from "zustand";
-import { TFeedbackItem } from '../lib/types';
+import { TFeedbackItem, Store } from '../lib/types';
 
-type State = {
-  feedbackItems: TFeedbackItem[];
-  isLoading: boolean;
-  errorMessage: string;
-  companyList: string[];
-  filteredFeedbackItems: TFeedbackItem[];
-  selectedHashtag: () => void;
-  addFeedbackItem: (text: string) => void;
-}
 
-create((set) => ({
+
+export const useFeedbackItemStore = create<Store>((set, get) => ({
   /**
    * State
    */
   feedbackItems: [] as TFeedbackItem[],
   isLoading: false,
-  erorMessage: "",
+  errorMessage: "",
   companyList: [],
   filteredFeedbackItems: [],
   selectedHashtag: "",
 
+  getCompanyList: () => {
+    return get().feedbackItems
+        .map((feedbackItem) => feedbackItem.company)
+        .filter((company, index, array) => {
+          return array.indexOf(company) === index;
+        })
+  },
+
+  getfilteredFeedbackItems: () => {
+    const state = get()
+    return state.selectedHashtag
+      ? state.feedbackItems.filter(
+          (feedbackItem: TFeedbackItem) => feedbackItem.company === state.selectedHashtag,
+        )
+      : state.feedbackItems;
+  },
+
   /**
    * Actions
    */
-  selectHashtag: (company: string) => {
+  getSelectedHashtag: (company: string) => {
     set(() => ({
       selectedHashtag: company
     }))
@@ -46,7 +55,7 @@ create((set) => ({
       badgeLetter: companyName.substring(0, 1).toUpperCase(),
     };
 
-    set((state: State) => {
+    set((state) => {
       return {
         feedbackItems: [...state.feedbackItems, newItem]
       }
@@ -72,5 +81,36 @@ create((set) => ({
       console.log("Something went wrong");
     }
   },
+  fetchComments: async () => {
+    set(()=>{
+      return {
+        isLoading: true
+      }
+    }  
+      ) 
+    try {
+      const response = await fetch(
+        "https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks",
+      );
 
+      if (!response.ok) {
+        throw new Error();
+      }
+      const data = await response.json();
+      
+      set(()=> {
+        return {
+          feedbackItems: data.feedbacks
+        }
+      })
+    } catch (e) {
+      set(()=>({
+        errorMessage: "Something went wrong!!"
+      }))
+    } finally {
+      set(()=>({
+        isLoading: false
+      }))
+    }
+  },
 }))

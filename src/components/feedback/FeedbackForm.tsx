@@ -1,9 +1,12 @@
 import React, { useRef, useState } from "react";
 import { MAX_CHARACTERS } from "../../lib/constants";
-import useFeedback from "../../lib/hooks";
+//import useFeedback from "../../lib/hooks";
+import { useFeedbackItemStore } from "../../stores/feedbackItemStore";
 
 const FeedbackForm = () => {
-  const { handleAddFeedbackItem } = useFeedback();
+  const addFeedbackItem = useFeedbackItemStore(
+    (state) => state.addFeedbackItem,
+  );
   const [newFeedback, setNewFeedback] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [isValid, setIsValid] = useState(false);
@@ -29,7 +32,7 @@ const FeedbackForm = () => {
       return;
     }
 
-    handleAddFeedbackItem(newFeedback);
+    addFeedbackItem(newFeedback);
     setNewFeedback("");
   };
 

@@ -7,3 +7,15 @@ export type TFeedbackItem = {
   text: string;
   daysAgo: number;
 };
+
+export type Store = {
+  feedbackItems: TFeedbackItem[];
+  isLoading: boolean;
+  errorMessage: string;
+  companyList: string[];
+  getfilteredFeedbackItems: () => TFeedbackItem[];
+  selectedHashtag: string;
+  getSelectedHashtag: (company: string) => void;
+  addFeedbackItem: (text: string) => Promise<void>;
+  fetchComments: () => Promise<void>;
+}
